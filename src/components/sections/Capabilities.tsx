@@ -1,5 +1,5 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef, type ReactNode } from 'react';
+import { motion, useScroll, useTransform, AnimatePresence, useMotionValueEvent } from 'framer-motion';
+import { useRef, useState, type ReactNode } from 'react';
 import { useIsMobile } from '@/lib/useIsMobile';
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -19,18 +19,15 @@ function DigitalPlatformsVisual() {
       <motion.div
         className="relative w-[280px] h-[180px] bg-ink-800 border border-white/[0.08] rounded-lg overflow-hidden"
         initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: EASE }}
       >
-        {/* Browser bar */}
         <div className="h-7 bg-ink-850 border-b border-white/[0.06] flex items-center px-3 gap-1.5">
           <div className="w-2 h-2 rounded-full bg-ink-500" />
           <div className="w-2 h-2 rounded-full bg-ink-500" />
           <div className="w-2 h-2 rounded-full bg-ink-500" />
           <div className="ml-3 flex-1 h-3 bg-ink-750 rounded-sm" />
         </div>
-        {/* Content */}
         <div className="p-4 space-y-3">
           <div className="h-6 w-3/4 bg-gradient-to-r from-violet-500/40 to-violet-500/10 rounded" />
           <div className="h-2 w-full bg-ink-600 rounded" />
@@ -45,12 +42,10 @@ function DigitalPlatformsVisual() {
             <div className="h-12 bg-ink-750 rounded" />
           </div>
         </div>
-        {/* Responsive indicator */}
         <motion.div
           className="absolute -right-12 -bottom-2 w-16 h-24 bg-ink-850 border border-white/[0.08] rounded-md flex flex-col items-center justify-center gap-1"
           initial={{ opacity: 0, scale: 0.8 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
           <div className="w-8 h-1 bg-ink-500 rounded" />
@@ -68,11 +63,9 @@ function BusinessSystemsVisual() {
       <motion.div
         className="relative w-[300px] h-[200px] bg-ink-800 border border-white/[0.08] rounded-lg overflow-hidden"
         initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: EASE }}
       >
-        {/* Header */}
         <div className="h-8 bg-ink-850 border-b border-white/[0.06] flex items-center px-3">
           <div className="h-2 w-20 bg-ink-500 rounded" />
           <div className="ml-auto flex gap-1.5">
@@ -81,14 +74,12 @@ function BusinessSystemsVisual() {
           </div>
         </div>
         <div className="flex h-[calc(100%-2rem)]">
-          {/* Sidebar */}
           <div className="w-14 bg-ink-850 border-r border-white/[0.04] p-2 space-y-2">
             <div className="h-3 w-full bg-violet-500/30 rounded" />
             <div className="h-3 w-full bg-ink-600 rounded" />
             <div className="h-3 w-full bg-ink-600 rounded" />
             <div className="h-3 w-full bg-ink-600 rounded" />
           </div>
-          {/* Main content — dashboard */}
           <div className="flex-1 p-3 space-y-2">
             <div className="grid grid-cols-3 gap-2">
               <div className="h-14 bg-electric-400/10 border border-electric-400/20 rounded flex flex-col justify-end p-1.5">
@@ -104,15 +95,13 @@ function BusinessSystemsVisual() {
                 <div className="h-3 w-8 bg-ink-300 rounded mt-1" />
               </div>
             </div>
-            {/* Chart bars */}
             <div className="h-20 bg-ink-750 rounded p-2 flex items-end gap-1.5">
               {[40, 60, 35, 75, 50, 85, 45, 65].map((h, i) => (
                 <motion.div
                   key={i}
                   className="flex-1 bg-gradient-to-t from-violet-600/40 to-violet-400/60 rounded-sm"
                   initial={{ height: 0 }}
-                  whileInView={{ height: `${h}%` }}
-                  viewport={{ once: true }}
+                  animate={{ height: `${h}%` }}
                   transition={{ duration: 0.6, delay: 0.3 + i * 0.05, ease: EASE }}
                 />
               ))}
@@ -130,12 +119,10 @@ function IntelligentWorkflowsVisual() {
       <motion.div
         className="relative w-[300px] h-[200px]"
         initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
+        animate={{ opacity: 1 }}
         transition={{ duration: 0.8, ease: EASE }}
       >
         <svg viewBox="0 0 300 200" className="w-full h-full">
-          {/* Nodes */}
           {[
             { x: 30, y: 40, label: 'INPUT', color: 'rgba(56,184,255,0.3)' },
             { x: 130, y: 40, label: 'PROCESS', color: 'rgba(111,77,255,0.3)' },
@@ -146,8 +133,7 @@ function IntelligentWorkflowsVisual() {
             <motion.g
               key={i}
               initial={{ opacity: 0, scale: 0.7 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.2 + i * 0.15, ease: EASE }}
             >
               <rect x={node.x - 25} y={node.y - 14} width="50" height="28" rx="4" fill="rgba(18,18,27,0.9)" stroke={node.color} strokeWidth="1" />
@@ -157,7 +143,6 @@ function IntelligentWorkflowsVisual() {
             </motion.g>
           ))}
 
-          {/* Connection lines */}
           {[
             'M 55 40 L 105 40',
             'M 155 40 L 205 40',
@@ -172,13 +157,11 @@ function IntelligentWorkflowsVisual() {
               strokeWidth="1"
               fill="none"
               initial={{ pathLength: 0 }}
-              whileInView={{ pathLength: 1 }}
-              viewport={{ once: true }}
+              animate={{ pathLength: 1 }}
               transition={{ duration: 0.8, delay: 0.6 + i * 0.1, ease: EASE }}
             />
           ))}
 
-          {/* Animated data flow */}
           {[
             { path: 'M 55 40 L 105 40', delay: 1.5, color: '#38b8ff' },
             { path: 'M 155 40 L 205 40', delay: 2, color: '#8f72ff' },
@@ -201,12 +184,10 @@ function ProductEngineeringVisual() {
       <motion.div
         className="relative w-[280px] h-[200px]"
         initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
+        animate={{ opacity: 1 }}
         transition={{ duration: 0.8, ease: EASE }}
       >
         <svg viewBox="0 0 280 200" className="w-full h-full">
-          {/* Architecture layers */}
           {[
             { y: 20, label: 'INTERFACE', w: 200, color: 'rgba(56,184,255,0.3)' },
             { y: 60, label: 'LOGIC', w: 220, color: 'rgba(111,77,255,0.3)' },
@@ -216,8 +197,7 @@ function ProductEngineeringVisual() {
             <motion.g
               key={i}
               initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 + i * 0.15, ease: EASE }}
             >
               <rect
@@ -244,7 +224,6 @@ function ProductEngineeringVisual() {
             </motion.g>
           ))}
 
-          {/* Vertical connection */}
           <motion.line
             x1="140"
             y1="48"
@@ -254,8 +233,7 @@ function ProductEngineeringVisual() {
             strokeWidth="1"
             strokeDasharray="3 3"
             initial={{ pathLength: 0 }}
-            whileInView={{ pathLength: 1 }}
-            viewport={{ once: true }}
+            animate={{ pathLength: 1 }}
             transition={{ duration: 1, delay: 0.8 }}
           />
         </svg>
@@ -325,6 +303,8 @@ function SectionHeader() {
 }
 
 // --- Desktop sticky scroll implementation -------------------------------------
+// Single scroll container (4 × 100vh) with one sticky panel.
+// AnimatePresence guarantees only one capability is ever visible — no overlap.
 
 function DesktopCapabilities() {
   const ref = useRef<HTMLElement>(null);
@@ -334,14 +314,21 @@ function DesktopCapabilities() {
   });
 
   const lineHeight = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useMotionValueEvent(scrollYProgress, 'change', (latest) => {
+    const idx = Math.min(3, Math.max(0, Math.floor(latest * 4)));
+    setActiveIndex(idx);
+  });
+
+  const capability = CAPABILITIES[activeIndex];
 
   return (
     <section id="capabilities" ref={ref} className="relative hidden lg:block">
       <SectionHeader />
 
-      {/* Sticky capability panels */}
+      {/* Progress line — spans the full scroll height */}
       <div className="relative">
-        {/* Progress line */}
         <div className="absolute left-16 top-0 bottom-0 w-px bg-white/[0.06]">
           <motion.div
             className="w-px bg-gradient-to-b from-violet-500 to-electric-400"
@@ -349,56 +336,49 @@ function DesktopCapabilities() {
           />
         </div>
 
-        {CAPABILITIES.map((cap, idx) => (
-          <DesktopCapabilityPanel key={cap.number} capability={cap} index={idx} />
-        ))}
+        {/* Scroll spacer: 4 viewport heights for 4 capabilities */}
+        <div style={{ height: '400vh' }}>
+          {/* Sticky panel — stays pinned, swaps content via AnimatePresence */}
+          <div className="sticky top-0 h-screen flex items-center overflow-hidden">
+            <AnimatePresence mode="sync">
+              <motion.div
+                key={activeIndex}
+                className="absolute inset-0 max-w-[1400px] mx-auto w-full px-6 sm:px-10 lg:px-16 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -30 }}
+                transition={{ duration: 0.4, ease: EASE }}
+                style={{ pointerEvents: 'none' }}
+              >
+                {/* Text */}
+                <div className="order-2 lg:order-1" style={{ pointerEvents: 'auto' }}>
+                  <div className="flex items-baseline gap-4 mb-6">
+                    <span className="text-5xl sm:text-6xl font-serif italic text-violet-400/40">
+                      {capability.number}
+                    </span>
+                    <span className="text-xs font-mono tracking-widest text-ink-300 uppercase">
+                      Capability {activeIndex + 1} of 4
+                    </span>
+                  </div>
+                  <h3 className="text-[clamp(2rem,4vw,3.5rem)] leading-[1.05] tracking-tighter font-medium text-white mb-6">
+                    {capability.title}
+                  </h3>
+                  <p className="text-lg text-ink-200 leading-relaxed max-w-md text-pretty">
+                    {capability.description}
+                  </p>
+                </div>
+
+                {/* Visual */}
+                <div className="order-1 lg:order-2 relative h-[300px] sm:h-[400px]">
+                  <div className="absolute inset-0 bg-grid-fine opacity-10 mask-radial-faded" />
+                  {capability.visual}
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
       </div>
     </section>
-  );
-}
-
-function DesktopCapabilityPanel({ capability, index }: { capability: Capability; index: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'end start'],
-  });
-
-  // Opacity reaches 0 at edges so panels fully fade — no overlap
-  const opacity = useTransform(scrollYProgress, [0, 0.25, 0.75, 1], [0, 1, 1, 0]);
-  const y = useTransform(scrollYProgress, [0, 0.25, 0.75, 1], [80, 0, 0, -80]);
-
-  return (
-    <div ref={ref} className="sticky top-0 min-h-screen flex items-center overflow-hidden">
-      <motion.div
-        className="max-w-[1400px] mx-auto w-full px-6 sm:px-10 lg:px-16 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center"
-        style={{ opacity, y }}
-      >
-        {/* Text */}
-        <div className="order-2 lg:order-1">
-          <div className="flex items-baseline gap-4 mb-6">
-            <span className="text-5xl sm:text-6xl font-serif italic text-violet-400/40">
-              {capability.number}
-            </span>
-            <span className="text-xs font-mono tracking-widest text-ink-300 uppercase">
-              Capability {index + 1} of 4
-            </span>
-          </div>
-          <h3 className="text-[clamp(2rem,4vw,3.5rem)] leading-[1.05] tracking-tighter font-medium text-white mb-6">
-            {capability.title}
-          </h3>
-          <p className="text-lg text-ink-200 leading-relaxed max-w-md text-pretty">
-            {capability.description}
-          </p>
-        </div>
-
-        {/* Visual */}
-        <div className="order-1 lg:order-2 relative h-[300px] sm:h-[400px]">
-          <div className="absolute inset-0 bg-grid-fine opacity-10 mask-radial-faded" />
-          {capability.visual}
-        </div>
-      </motion.div>
-    </div>
   );
 }
 
@@ -410,7 +390,6 @@ function MobileCapabilities() {
       <SectionHeader />
 
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 pb-20">
-        {/* Progress line */}
         <div className="absolute left-6 top-[18rem] bottom-24 w-px bg-white/[0.06]" />
 
         <div className="space-y-24 sm:space-y-32">
@@ -432,7 +411,6 @@ function MobileCapabilityItem({ capability, index }: { capability: Capability; i
       viewport={{ once: true, amount: 0.3 }}
       transition={{ duration: 0.8, ease: EASE }}
     >
-      {/* Progress dot */}
       <div className="absolute left-0 top-1.5 w-7 h-7 flex items-center justify-center">
         <div className="w-2.5 h-2.5 rounded-full bg-violet-500" />
         <motion.div
@@ -442,7 +420,6 @@ function MobileCapabilityItem({ capability, index }: { capability: Capability; i
         />
       </div>
 
-      {/* Text */}
       <div className="mb-8">
         <div className="flex items-baseline gap-4 mb-4">
           <span className="text-4xl font-serif italic text-violet-400/40">
@@ -460,7 +437,6 @@ function MobileCapabilityItem({ capability, index }: { capability: Capability; i
         </p>
       </div>
 
-      {/* Visual */}
       <div className="relative h-[240px] sm:h-[320px]">
         <div className="absolute inset-0 bg-grid-fine opacity-10 mask-radial-faded" />
         {capability.visual}
